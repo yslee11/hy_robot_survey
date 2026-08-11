@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>도시 공공공간 로봇(피지컬 AI) 수용성 설문조사</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__inner">
+      <p class="eyebrow">시민 대상 설문조사</p>
+      <h1>도시 공공공간 로봇(피지컬 AI)<br class="mobile-break" />도입에 따른 수용성 분석 연구</h1>
+      <p class="hero__text">
+        본 조사는 도시 공공공간에서 로봇이 도입될 가능성에 대비하여 시민들이 중요하게 생각하는 요소를 파악하기 위한 설문입니다.
+        응답에는 약 5~7분이 소요되며, 모든 응답은 익명으로 처리되고 연구 목적으로만 사용됩니다.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <!-- 단계 진행 표시기 (JS로 채워짐) -->
+    <div id="surveyProgress" class="survey-progress"></div>
+
+    <form id="surveyForm" novalidate>
+
+      <!-- Step 1: 안내 및 동의 -->
+      <section class="card notice" data-step="1">
+        <h2>설문 안내</h2>
+        <p>
+          안녕하십니까.<br>
+          본 조사는 도시 공공공간에서 로봇이 도입될 가능성에 대비하여, 시민들이 어떤 점을 중요하게 생각하는지 알아보기 위한 설문조사입니다.       
+        </p>
+        <p>
+          <strong>Physical AI 로봇</strong>은 인공지능을 바탕으로 주변 상황을 인식하고 거리, 보도, 공원, 광장 등 <strong>시민들이 이용하는 공간에서 스스로 이동하거나 서비스를 제공할 수 있는 로봇을 의미</strong>합니다.
+        </p>
+        <p>
+          본 설문은 <strong>미래 도시 공공공간에서 사람과 로봇이 함께 이용하는 환경을 계획하고 개선</strong>하기 위한 기초자료로 활용됩니다.
+        </p>
+        <p>
+          응답에는 <strong>약 5~7분이 소요</strong>되며, <strong>응답해주신 내용은 연구 목적으로만 사용</strong>됩니다. 모든 응답은 익명으로 처리됩니다. 각 문항에는 정답이 없으므로 귀하의 생각에 가장 가까운 답을 선택해 주시기 바랍니다.
+        </p>
+        <p>
+          바쁘신 가운데 설문에 참여해 주셔서 감사합니다.
+        </p>
+        
+        <label class="consent">
+          <input type="checkbox" name="consent" value="동의" required />
+          설문 목적과 익명 처리 안내를 확인했으며, 응답 제출에 동의합니다.
+        </label>
+      </section>
+
+      <!-- Step 2: 응답자 기본 특성 -->
+      <section class="card" data-step="2">
+        <h2>Section 1. 응답자 기본 특성</h2>
+        <div class="grid two">
+          <fieldset>
+            <legend>1. 귀하의 성별은 무엇입니까? <span class="required">*</span></legend>
+            <label><input type="radio" name="gender" value="남성" required /> 남성</label>
+            <label><input type="radio" name="gender" value="여성" /> 여성</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>2. 귀하의 연령대는 어떻게 되십니까? <span class="required">*</span></legend>
+            <label><input type="radio" name="age" value="10대 이하" required /> 10대 이하</label>
+            <label><input type="radio" name="age" value="20대" /> 20대</label>
+            <label><input type="radio" name="age" value="30대" /> 30대</label>
+            <label><input type="radio" name="age" value="40대" /> 40대</label>
+            <label><input type="radio" name="age" value="50대" /> 50대</label>
+            <label><input type="radio" name="age" value="60대 이상" /> 60대 이상</label>
+          </fieldset>
+        </div>
+
+        <fieldset>
+          <legend>3. 귀하의 직업은 무엇입니까? <span class="required">*</span></legend>
+          <div class="grid three compact">
+            <label><input type="radio" name="job" value="학생" required /> 학생</label>
+            <label><input type="radio" name="job" value="직장인(사무/관리직)" /> 직장인(사무/관리직)</label>
+            <label><input type="radio" name="job" value="직장인(서비스/생산직)" /> 직장인(서비스/생산직)</label>
+            <label><input type="radio" name="job" value="자영업/프리랜서" /> 자영업/프리랜서</label>
+            <label><input type="radio" name="job" value="공무원/전문직" /> 공무원/전문직</label>
+            <label><input type="radio" name="job" value="주부" /> 주부</label>
+            <label><input type="radio" name="job" value="무직/기타" /> 무직/기타</label>
+          </div>
+        </fieldset>
+
+        <label class="field">
+          <span>4. 귀하의 현재 거주지역은 어디입니까? <span class="required">*</span></span>
+          <input type="text" name="residence" placeholder="예: 서울특별시 성동구" required />
+        </label>
+      </section>
+
+      <!-- Step 3: 도시공간 이용 특성 -->
+      <section class="card" data-step="3">
+        <h2>Section 2. 도시공간 이용 특성</h2>
+        <div class="grid two">
+          <fieldset>
+            <legend>5. 귀하는 평소 도보 이동을 얼마나 자주 하십니까? <span class="required">*</span></legend>
+            <label><input type="radio" name="walk_frequency" value="거의 하지 않음" required /> 거의 하지 않음</label>
+            <label><input type="radio" name="walk_frequency" value="주 1~2회" /> 주 1~2회</label>
+            <label><input type="radio" name="walk_frequency" value="주 3~4회" /> 주 3~4회</label>
+            <label><input type="radio" name="walk_frequency" value="거의 매일" /> 거의 매일</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>6. 귀하는 하루 평균 도보 이동 시간이 어느 정도입니까? <span class="required">*</span></legend>
+            <label><input type="radio" name="walk_time" value="30분 미만" required /> 30분 미만</label>
+            <label><input type="radio" name="walk_time" value="30분~1시간 미만" /> 30분~1시간 미만</label>
+            <label><input type="radio" name="walk_time" value="1시간~2시간 미만" /> 1시간~2시간 미만</label>
+            <label><input type="radio" name="walk_time" value="2시간 이상" /> 2시간 이상</label>
+          </fieldset>
+        </div>
+
+        <fieldset>
+          <legend>7. 귀하가 자주 이용하는 도시 공공공간은 무엇입니까? 복수응답 가능 <span class="required">*</span></legend>
+          <div class="grid three compact checkbox-group" data-required-checkbox="public_space">
+            <label><input type="checkbox" name="public_space" value="거리/보행로" /> 거리/보행로</label>
+            <label><input type="checkbox" name="public_space" value="공원/광장" /> 공원/광장</label>
+            <label><input type="checkbox" name="public_space" value="상업시설 주변" /> 상업시설 주변(상가, 마트 등)</label>
+            <label><input type="checkbox" name="public_space" value="대중교통 정류장/역 주변" /> 대중교통 정류장/역 주변</label>
+            <label><input type="checkbox" name="public_space" value="주거지 주변" /> 주거지 주변</label>
+            <label class="inline-other"><input type="checkbox" name="public_space" value="기타" /> 기타 <input type="text" name="public_space_other" placeholder="직접 입력" /></label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- Step 4: 로봇 및 AI 기술 경험 -->
+      <section class="card" data-step="4">
+        <h2>Section 3. 로봇 및 AI 기술 경험</h2>
+
+        <figure class="survey-image-block criteria-image-block" aria-label="평가기준 소개 이미지">
+          <img
+            src="assets/robot-types.jpg"
+            alt="평가기준 소개: 신체적 안전함, 심리적 편안함, 사생활 보호, 사회적 편익, 공간적 어울림과 7점 비교평가 방식 안내"
+          />
+        </figure>
+
+        <div class="grid two">
+          <fieldset>
+            <legend>8. 피지컬 AI 로봇 또는 자율 이동 로봇에 대해 들어본 적이 있습니까? <span class="required">*</span></legend>
+            <label><input type="radio" name="heard_robot" value="예" required /> 예</label>
+            <label><input type="radio" name="heard_robot" value="아니오" /> 아니오</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>9. 실제 도시공간이나 실내외 시설에서 로봇을 보거나 경험한 적이 있습니까? <span class="required">*</span></legend>
+            <label><input type="radio" name="experienced_robot" value="예" required /> 예</label>
+            <label><input type="radio" name="experienced_robot" value="아니오" /> 아니오</label>
+          </fieldset>
+        </div>
+
+        <div class="scale-block">
+          <p class="question-title">10. 새로운 기술이나 서비스를 얼마나 빨리 받아들이는 편입니까? <span class="required">*</span></p>
+          <div class="likert five" data-name="tech_adoption"></div>
+          <div class="scale-labels"><span>늦게 받아들이는 편이다</span><span>빠르게 받아들이는 편이다</span></div>
+        </div>
+      </section>
+
+      <!-- Step 5: 평가기준 간 중요도 비교 -->
+      <section class="card" data-step="5">
+        <h2>Section 4. 평가기준 간 중요도 비교</h2>
+
+        <figure class="survey-image-block criteria-image-block" aria-label="평가기준 소개 이미지">
+          <img
+            src="assets/criteria-guide.jpg"
+            alt="평가기준 소개: 신체적 안전함, 심리적 편안함, 사생활 보호, 사회적 편익, 공간적 어울림과 7점 비교평가 방식 안내"
+          />
+        </figure>
+
+        <h3>1. 평가 항목 간 중요도 비교 <span class="required">*</span></h3>
+        <p class="helper">위의 5개의 평가 지표를 기준으로, <strong>실제 도시공공공간에서 로봇을 만났을 때 어떤 항목이 더 중요</strong>한지에 대해 응답해주세요.<br>
+          ex) 도시 가로경관에서 로봇을 만났을 때 해당 로봇이 안전하게 움직이는 게 더 중요한지, 심리적으로 편하게 느껴지는 게 중요한지</p>
+        <p class="helper"><strong>비교 척도:</strong> 매우 중요(7) · 중요(5) · 약간 중요(3) · 동등(1) · 약간 중요(3) · 중요(5) · 매우 중요(7)</p>
+        <div id="criteriaComparisons" class="comparison-list"></div>
+
+        <h3>2. 로봇 유형에 따른 평가 항목 중요도 비교 <span class="required">*</span></h3>
+        <p class="helper">공공공간에서 어떤 로봇이 각 평가 항목에 더 잘 맞다고 생각되는지 답변해 주세요.</p>
+        
+        <figure class="survey-image-block criteria-image-block" aria-label="평가기준 소개 이미지">
+          <img
+            src="assets/robot-types.jpg"
+            alt="평가기준 소개: 신체적 안전함, 심리적 편안함, 사생활 보호, 사회적 편익, 공간적 어울림과 7점 비교평가 방식 안내"
+          />
+        </figure>
+
+        <p class="helper">예시) <strong>바퀴형 로봇과 4족형 로봇</strong>을 동시에 <strong>도시 공간</strong>에서 만나면, 어떤 로봇이 더 <strong>신체적으로 안전</strong>하다고 느껴지시나요?</p>
+        <p class="helper">      바퀴형 로봇이 더 안전하다고 생각하시면 바퀴형 로봇에 높은 점수를, 4족형 로봇이 더 안전하다고 생각하시면 4족형 로봇에 높은 점수를 부여해주세요.</p>
+        
+        <div id="robotComparisons" class="comparison-list"></div>
+      </section>
+
+      <!-- Step 6: 최종 의견 -->
+      <section class="card" data-step="6">
+        <h2>마지막 문항</h2>
+        <div class="scale-block">
+          <p class="question-title">도시 공공공간에 피지컬 AI 로봇이 도입되는 것에 대해 전반적으로 어떻게 생각하십니까? <span class="required">*</span></p>
+          <div class="likert five" data-name="overall_attitude"></div>
+          <div class="scale-labels"><span>매우 부정적</span><span>매우 긍정적</span></div>
+        </div>
+      </section>
+
+      <!-- 하단 네비게이션 (항상 표시) -->
+      <div class="step-nav">
+        <button type="button" id="prevBtn" class="secondary">← 이전</button>
+        <p id="formMessage" role="status"></p>
+        <div class="step-nav-right">
+          <button type="button" id="nextBtn">다음 →</button>
+          <button type="submit" id="submitBtn">설문 제출하기</button>
+        </div>
+      </div>
+
+    </form>
+      <!-- 설문 완료 화면 (기본 숨김) -->
+      <section class="card notice" id="thankYouCard" hidden>
+        <h2>설문이 완료되었습니다</h2>
+        <p>바쁘신 가운데 <strong>도시 공공공간 로봇(피지컬 AI) 수용성 조사</strong>에 참여해 주셔서 진심으로 감사합니다.</p>
+        <p>제출해 주신 응답은 익명으로 처리되며, 연구 목적으로만 활용됩니다.</p>
+        <p class="helper">이 창은 그대로 닫으셔도 됩니다.</p>
+      </section>    
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

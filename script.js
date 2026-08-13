@@ -58,11 +58,36 @@ const robotPairs = [
 ];
 
 const robotCriteria = [
-  { key: 'physical_safety', title: '신체적 안전함', desc: '로봇이 본인 또는 주변 사람에게 신체적으로 위험하지 않다고 느끼는 정도' },
-  { key: 'psychological_comfort', title: '심리적 편안함', desc: '로봇을 마주쳤을 때 외형적으로 무섭거나 부담스럽지 않은 정도' },
-  { key: 'privacy_trust', title: '사생활 보호', desc: '로봇을 운영하고 관리하는 방식을 믿을 수 있는 정도' },
-  { key: 'social_benefit', title: '사회적 편익', desc: '사회 전체 구성원이 얻는 총체적인 이익과 만족감을 줄 수 있는 정도' },
-  { key: 'spatial_fit', title: '공간적 어울림', desc: '로봇의 크기, 모습, 움직임이 거리나 공공장소 분위기와 잘 맞는 정도' }
+  {
+    key: 'physical_safety',
+    title: '신체적 안전함',
+    desc: '로봇이 본인 또는 주변 사람에게 신체적으로 위험하지 않다고 느끼는 정도',
+    compareLabel: '안전함'
+  },
+  {
+    key: 'psychological_comfort',
+    title: '심리적 편안함',
+    desc: '로봇을 마주쳤을 때 외형적으로 무섭거나 부담스럽지 않은 정도',
+    compareLabel: '편안함'
+  },
+  {
+    key: 'privacy_trust',
+    title: '사생활 보호',
+    desc: '로봇을 운영하고 관리하는 방식을 믿을 수 있는 정도',
+    compareLabel: '사생활 보호에 유리함'
+  },
+  {
+    key: 'social_benefit',
+    title: '사회적 편익',
+    desc: '사회 전체 구성원이 얻는 총체적인 이익과 만족감을 줄 수 있는 정도',
+    compareLabel: '사회적 편익이 큼'
+  },
+  {
+    key: 'spatial_fit',
+    title: '공간적 어울림',
+    desc: '로봇의 크기, 모습, 움직임이 거리나 공공장소 분위기와 잘 맞는 정도',
+    compareLabel: '더 어울림'
+  }
 ];
 
 // 7개 응답 범주: 매우 중요(7) - 중요(5) - 약간 중요(3) - 동등(1)
@@ -161,12 +186,12 @@ function showStep(n) {
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const submitBtn = document.getElementById('submitBtn');
-//  const downloadBtn = document.getElementById('downloadBtn');
+  //  const downloadBtn = document.getElementById('downloadBtn');
 
   prevBtn.style.display = n === 1 ? 'none' : '';
   nextBtn.style.display = n === TOTAL_STEPS ? 'none' : '';
   submitBtn.style.display = n === TOTAL_STEPS ? '' : 'none';
-//  downloadBtn.style.display = n === TOTAL_STEPS ? '' : 'none';
+  //  downloadBtn.style.display = n === TOTAL_STEPS ? '' : 'none';
 
   updateProgress(n);
   setMessage('');
@@ -186,7 +211,6 @@ function showThankYou() {
   document.getElementById('thankYouCard').hidden = false;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
 
 // ─── 현재 단계 유효성 검사 ─────────────────────────────────────
 function validateCurrentStep() {
@@ -266,7 +290,14 @@ function createDefinitions() {
   });
 }
 
-function createComparisonRow({ name, left, right, title, mode = 'criteria' }) {
+function createComparisonRow({
+  name,
+  left,
+  right,
+  title,
+  mode = 'criteria',
+  compareLabel = '적합'
+}) {
   const row = document.createElement('div');
   row.className = 'comparison-row';
 
@@ -278,7 +309,7 @@ function createComparisonRow({ name, left, right, title, mode = 'criteria' }) {
   `).join('');
 
   const middleText = mode === 'robot'
-    ? '왼쪽이 더 적합 ⇄ 오른쪽이 더 적합'
+    ? `왼쪽이 더 ${compareLabel} ⇄ 오른쪽이 더 ${compareLabel}`
     : '왼쪽이 더 중요 ⇄ 오른쪽이 더 중요';
 
   const leftCaption = mode === 'robot' ? '왼쪽 매우 적합' : '왼쪽 매우 중요';
@@ -312,11 +343,21 @@ function createRobotComparisons() {
     const group = document.createElement('section');
     group.className = 'robot-criteria-group';
     group.innerHTML = `<h4>${criteria.title} <span class="helper">(${criteria.desc})</span></h4>`;
+
     robotPairs.forEach(({ left, right, legacyLeft, legacyRight }, index) => {
       // 기존 Apps Script HEADER_LABELS와의 호환을 위해 제출 key는 변경 전 pair를 사용
       const name = `robot_${criteria.key}_${index + 1}_${slugify(legacyLeft)}_vs_${slugify(legacyRight)}`;
-      group.appendChild(createComparisonRow({ name, left, right, mode: 'robot' }));
+      group.appendChild(
+        createComparisonRow({
+          name,
+          left,
+          right,
+          mode: 'robot',
+          compareLabel: criteria.compareLabel
+        })
+      );
     });
+
     target.appendChild(group);
   });
 }
@@ -389,7 +430,7 @@ function init() {
 
   const form = document.getElementById('surveyForm');
   const submitBtn = document.getElementById('submitBtn');
-//  const downloadBtn = document.getElementById('downloadBtn');
+  //  const downloadBtn = document.getElementById('downloadBtn');
   const nextBtn = document.getElementById('nextBtn');
   const prevBtn = document.getElementById('prevBtn');
 
@@ -405,10 +446,10 @@ function init() {
   });
 
   // JSON 다운로드 버튼
-//  downloadBtn.addEventListener('click', () => {
-//    const data = formToObject(form);
-//    downloadJson(data);
-//  });
+  //  downloadBtn.addEventListener('click', () => {
+  //    const data = formToObject(form);
+  //    downloadJson(data);
+  //  });
 
   // 제출
   form.addEventListener('submit', async event => {
@@ -437,4 +478,3 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
-

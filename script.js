@@ -86,7 +86,7 @@ const robotCriteria = [
     key: 'spatial_fit',
     title: '공간적 어울림',
     desc: '로봇의 크기, 모습, 움직임이 거리나 공공장소 분위기와 잘 맞는 정도',
-    compareLabel: '더 어울림'
+    compareLabel: '어울림'
   }
 ];
 
